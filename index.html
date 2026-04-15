@@ -4,12 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guias de Sepultamento — Serra Redonda/PB</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1a2332">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Guias SR">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#1a2332;--ink-2:#3d5068;--ink-3:#7a92a8;--ink-4:#b8cad6;--ink-5:#dce8ef;--ink-6:#f0f5f8;--ink-7:#f8fafb;--accent:#2a6496;--accent-light:#e8f1f8;--success:#1e7d5b;--warn:#8a6200;--warn-bg:#fef8e7;--radius:10px;--radius-sm:6px;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--shadow-sm:0 1px 4px rgba(26,35,50,.07);--shadow:0 2px 12px rgba(26,35,50,.10);}
@@ -69,7 +63,7 @@ body{font-family:var(--sans);background:#eef3f7;color:var(--ink);min-height:100v
 .col-full{grid-column:1/-1;}
 .field{display:flex;flex-direction:column;margin-bottom:1.1rem;}
 .field label{font-size:10.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;}
-.field input,.field select{font-family:var(--sans);font-size:13.5px;color:var(--ink);background:transparent;border:none;border-bottom:1.5px solid var(--ink-5);padding:6px 0 7px;outline:none;width:100%;text-transform:uppercase;transition:border-color .16s;}#u-usuario,#u-senha,#u-nome{text-transform:none;}.senha-wrap{position:relative;width:100%;}.senha-wrap input{padding-right:36px;}.senha-toggle{position:absolute;right:0;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--ink-3);font-size:16px;padding:4px;line-height:1;}.senha-toggle:hover{color:var(--accent);}
+.field input,.field select{font-family:var(--sans);font-size:13.5px;color:var(--ink);background:transparent;border:none;border-bottom:1.5px solid var(--ink-5);padding:6px 0 7px;outline:none;width:100%;text-transform:uppercase;transition:border-color .16s;}
 .field input[type="date"],.field input[type="datetime-local"]{text-transform:none;}
 .field input:focus,.field select:focus{border-bottom-color:var(--accent);}
 .field input::placeholder{color:var(--ink-4);font-weight:300;text-transform:none;}
@@ -127,15 +121,6 @@ tbody tr:hover td{background:var(--accent-light);}
 .modal-val{color:var(--ink);}
 .modal-footer{padding:1rem 1.6rem;border-top:1px solid var(--ink-5);display:flex;justify-content:flex-end;gap:8px;background:var(--ink-7);border-radius:0 0 var(--radius) var(--radius);}
 @media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr;}.col-full{grid-column:1;}.header{flex-direction:column;gap:10px;}}
-
-.user-table{width:100%;border-collapse:collapse;font-size:13px;}
-.user-table th{background:#1a2332;color:#fff;padding:9px 14px;text-align:left;font-weight:500;}
-.user-table td{padding:9px 14px;border-bottom:1px solid var(--ink-6);color:var(--ink-2);}
-.user-table tbody tr:hover td{background:var(--accent-light);}
-.user-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.badge-admin{display:inline-block;background:#1a2332;color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;letter-spacing:.05em;}
-.badge-user{display:inline-block;background:var(--ink-5);color:var(--ink-2);font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;}
-.btn-danger{background:#c0392b;color:#fff;border-color:#c0392b;}.btn-danger:hover{background:#a93226;}
 </style>
 </head>
 <body>
@@ -186,7 +171,6 @@ tbody tr:hover td{background:var(--accent-light);}
   <div class="tabs">
     <button class="tab active" onclick="setTab('emitir',this)">Nova Guia</button>
     <button class="tab" onclick="setTab('arquivo',this)">Arquivo de Guias</button>
-    <button class="tab" id="tab-usuarios" style="display:none;" onclick="setTab('usuarios',this)">&#128100; Usuários</button>
   </div>
 
   <!-- PAINEL EMITIR -->
@@ -226,11 +210,10 @@ tbody tr:hover td{background:var(--accent-light);}
     <div class="card">
       <div class="section-header"><div class="section-dot"></div><span class="section-label">Dados do Óbito</span></div>
       <div class="section-body">
-        <div class="grid-3">
-          <div class="field"><label>Data do óbito</label><input type="date" id="dt-obito-data" onchange="calcularIdade()" onblur="autoFocarHora('dt-obito-data','dt-obito-hora')" /></div>
-          <div class="field"><label>Hora do óbito</label><input type="time" id="dt-obito-hora" onchange="calcularIdade()" /></div>
+        <div class="grid-2">
+          <div class="field"><label>Data/hora do óbito</label><input type="datetime-local" id="dt-obito" onchange="calcularIdade()" /></div>
           <div class="field"><label>Idade na data do óbito</label><input type="text" id="idade" readonly placeholder="Automático" /><span class="idade-hint" id="idade-hint"></span></div>
-          <div class="field"><label>Declaração de óbito nº</label><input type="text" id="dec-obito" placeholder="Número DO" /></div>
+          <div class="field col-full"><label>Declaração de óbito nº</label><input type="text" id="dec-obito" placeholder="Número DO" /></div>
           <div class="field col-full"><label>Causa da morte</label><input type="text" id="causa" placeholder="Ex.: Causa desconhecida" /></div>
           <div class="field col-full"><label>Local de ocorrência do óbito</label><input type="text" id="ocorrencia" placeholder="Ex.: UPA, Ingá/PB" /></div>
         </div>
@@ -240,8 +223,7 @@ tbody tr:hover td{background:var(--accent-light);}
       <div class="section-header"><div class="section-dot"></div><span class="section-label">Sepultamento</span></div>
       <div class="section-body">
         <div class="grid-2">
-          <div class="field"><label>Data do sepultamento</label><input type="date" id="dt-sep-data" onblur="autoFocarHora('dt-sep-data','dt-sep-hora')" /></div>
-          <div class="field"><label>Hora do sepultamento</label><input type="time" id="dt-sep-hora" /></div>
+          <div class="field"><label>Data/hora do sepultamento</label><input type="datetime-local" id="dt-sep" /></div>
           <div class="field">
             <label>Cemitério</label>
             <select id="cemiterio" onchange="preencherCemiterio()">
@@ -288,37 +270,6 @@ tbody tr:hover td{background:var(--accent-light);}
       </div>
     </div>
   </div>
-  <!-- PAINEL USUÁRIOS (só admin) -->
-  <div id="panel-usuarios" class="panel">
-    <div class="card">
-      <div class="section-header"><div class="section-dot"></div><span class="section-label">Cadastrar / Editar Usuário</span></div>
-      <div class="section-body">
-        <div class="user-form-grid">
-          <div class="field"><label>Login do usuário</label><input type="text" id="u-usuario" placeholder="Ex: joao.silva" autocomplete="off" /></div>
-          <div class="field"><label>Senha</label><div class="senha-wrap"><input type="password" id="u-senha" placeholder="Mínimo 6 caracteres" autocomplete="off" /><button type="button" class="senha-toggle" onclick="toggleSenha()" title="Mostrar/ocultar senha" id="btn-toggle-senha">&#128065;</button></div></div>
-          <div class="field col-full" style="grid-column:1/-1"><label>Nome completo</label><input type="text" id="u-nome" placeholder="Nome completo do servidor" /></div>
-        </div>
-        <div class="btn-row" style="margin-top:.8rem;">
-          <button class="btn btn-primary" onclick="salvarUsuario()">Salvar usuário</button>
-          <button class="btn btn-ghost" onclick="limparFormUsuario()">Limpar</button>
-        </div>
-        <div id="u-status" class="status-bar"></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="section-header"><div class="section-dot"></div><span class="section-label">Usuários Cadastrados</span></div>
-      <div class="section-body" style="padding:0;">
-        <div class="table-wrap">
-          <table class="user-table">
-            <thead><tr><th>Login</th><th>Nome completo</th><th>Perfil</th><th></th></tr></thead>
-            <tbody id="u-tabela"></tbody>
-          </table>
-          <div id="u-empty" class="empty-msg" style="display:none;">Nenhum usuário encontrado.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <!-- MODAL DETALHE -->
@@ -337,7 +288,7 @@ tbody tr:hover td{background:var(--accent-light);}
 </div>
 
 <script>
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyidGx5kh1--NNqLt54i8yn-QK9NsY4nWhvww0pAhHkC5F3gGwlsCQaiEvVzTA8CzYq/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybYEv12T34bEs_8zFUwhStnpy9hzYTQ3tv9golsa71eTGxALaFy0UxOuIYZ3Seep7x/exec';
 var BRASAO_B64 = ["/9j/4AAQSkZJRgABAQEA3ADcAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsN","DhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQU","FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAEXATwDASIAAhEBAxEB/8QA","HwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIh","MUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVW","V1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXG","x8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQF","BgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAV","YnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOE","hYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq","8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9UKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoozR","mgCO4nW3t5ZXOEjUux9gMmvP/hn8efBPxe1TU7Dwrq66ndaaAbtFjZfKycYOR6g1i/Hb4Q+JfinHpyeH","vHN94QWAOJo7QcXGRwD/AJ718I/sd/A/xXrXxQ+JGj6Z401LwjdaRdKlzPaqCbwCQjnI9R+tK4H6mUVV","0+Jre1t4HlM0kcao0jdXIGCx9zVqmAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUU","UUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFNzzSlqy9W1+y0dCbiYKx+6i8sfwrnrV6WHhz1ZWXmVGL","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"].join('');
 var BRASAO_SRC = 'data:image/jpeg;base64,' + BRASAO_B64;
 var ANO = new Date().getFullYear();
@@ -386,7 +337,7 @@ function fazerLogin() {
   btn.textContent = 'Verificando...';
   api({ action: 'login', usuario: usuario, senha: senha }).then(function(r) {
     if (!r.ok) { err.textContent = r.error || 'Usuário ou senha incorretos.'; btn.disabled = false; btn.textContent = 'Entrar'; return; }
-    sessao = { token: r.token, nome: r.nome, usuario: r.usuario, admin: r.admin };
+    sessao = { token: r.token, nome: r.nome, usuario: r.usuario };
     localStorage.setItem('sep_sessao', JSON.stringify(sessao));
     mostrarApp();
   }).catch(function(e) {
@@ -399,16 +350,12 @@ function fazerLogin() {
 function mostrarApp() {
   document.getElementById('login-overlay').style.display = 'none';
   document.getElementById('app-main').style.display = 'block';
+  // Preencher dados do usuário
   var iniciais = sessao.nome.split(' ').map(function(n) { return n[0]; }).slice(0,2).join('').toUpperCase();
   document.getElementById('user-avatar').textContent = iniciais;
   document.getElementById('user-name-display').textContent = sessao.nome;
-  // Mostrar aba de usuários só para admin
-  document.getElementById('tab-usuarios').style.display = sessao.admin ? '' : 'none';
-  // Sempre iniciar na aba Nova Guia
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
-  document.getElementById('panel-emitir').classList.add('active');
-  document.querySelector('.tab[onclick*="emitir"]').classList.add('active');
+  
+  // Carregar dados iniciais
   carregarArquivo();
 }
 
@@ -479,7 +426,6 @@ function api(params) {
   el.addEventListener('keypress', function(e) { if (e.key==='Enter') buscarCEP(); });
 })();
 
-function autoFocarHora(idData,idHora){var d=document.getElementById(idData);var h=document.getElementById(idHora);if(d&&d.value&&h){h.focus();}}
 function fmtDT(s){if(!s)return'—';var d=new Date(s);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+':00';}
 function fmtData(s){if(!s)return'—';var p=s.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
 function gerarChave(){var c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';var s='';for(var i=0;i<8;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
@@ -493,15 +439,11 @@ function setTab(tab,btn){
   document.getElementById('panel-'+tab).classList.add('active');
   btn.classList.add('active');
   if(tab==='arquivo') carregarArquivo();
-  if(tab==='usuarios') carregarUsuarios();
 }
 
 function calcularIdade(){
   var nasc=document.getElementById('nascimento').value;
-  var dtOData=document.getElementById('dt-obito-data').value;
-  var dtOHora=document.getElementById('dt-obito-hora').value||'00:00';
-  var dtO=dtOData?(dtOData+'T'+dtOHora):'';
-
+  var dtO=document.getElementById('dt-obito').value;
   var el=document.getElementById('idade'),hint=document.getElementById('idade-hint');
   if(!nasc){el.value='';hint.textContent='';return;}
   var ref=dtO?new Date(dtO):new Date(),nd=new Date(nasc);
@@ -538,56 +480,11 @@ function preencherCemiterio(){
   document.getElementById('end-cemiterio').value=v?(CEMITERIOS[v]||''):'';
 }
 
-function validarCPF(cpf){
-  cpf=cpf.replace(/\D/g,'');
-  if(cpf.length!==11||/^(\d)\1+$/.test(cpf))return false;
-  var s=0;for(var i=0;i<9;i++)s+=parseInt(cpf[i])*(10-i);
-  var r=s%11;var d1=r<2?0:11-r;
-  if(parseInt(cpf[9])!==d1)return false;
-  s=0;for(var i=0;i<10;i++)s+=parseInt(cpf[i])*(11-i);
-  r=s%11;var d2=r<2?0:11-r;
-  return parseInt(cpf[10])===d2;
-}
-
-function mostrarErro(msg){
-  document.getElementById('status').innerHTML='<span class="status-err">'+msg+'</span>';
-}
-
 function emitirGuia(){
-  var err=null;
-  var campos=[
-    ['nome','Nome do falecido'],
-    ['cpf','CPF'],
-    ['nascimento','Data de nascimento'],
-    ['nome-pai','Nome do pai'],
-    ['nome-mae','Nome da mãe'],
-    ['cep','CEP'],
-    ['endereco','Logradouro'],
-    ['numero','Número/Complemento'],
-    ['bairro','Bairro/Zona'],
-    ['cidade','Cidade'],
-    ['estado','Estado'],
-    ['dt-obito-data','Data do óbito'],
-    ['dt-obito-hora','Hora do óbito'],
-    ['dec-obito','Declaração de óbito nº'],
-    ['causa','Causa da morte'],
-    ['ocorrencia','Local de ocorrência do óbito'],
-    ['dt-sep-data','Data do sepultamento'],
-    ['dt-sep-hora','Hora do sepultamento']
-  ];
-  for(var i=0;i<campos.length;i++){
-    var val=(document.getElementById(campos[i][0])||{}).value||'';
-    if(!val.trim()){err=campos[i][1];break;}
-  }
-  if(err){mostrarErro('Campo obrigatório: '+err+'.'); return;}
-  var cemSel=document.getElementById('cemiterio').value;
-  if(!cemSel){mostrarErro('Selecione o cemitério.');return;}
-  var cpfRaw=document.getElementById('cpf').value;
-  if(!validarCPF(cpfRaw)){mostrarErro('CPF inválido. Verifique os dígitos informados.');return;}
-  var cpfNum=cpfRaw.replace(/\D/g,'');
-  var cpfDup=allGuias.some(function(h){var d=h.data||h;var c=d.cpf||h.cpf||'';return typeof c==='string'&&c.replace(/\D/g,'')===cpfNum;});
-  if(cpfDup){mostrarErro('Já existe uma guia emitida para este CPF.');return;}
   var nome=g('nome');
+  if(!nome){document.getElementById('status').innerHTML='<span class="status-err">Informe o nome do falecido.</span>';return;}
+  var cemSel=document.getElementById('cemiterio').value;
+  if(!cemSel){document.getElementById('status').innerHTML='<span class="status-err">Selecione o cemiterio.</span>';return;}
   document.getElementById('status').innerHTML='<span style="color:var(--ink-3)">Reservando numero...</span>';
   setSyncStatus('wait','Salvando...');
   api({action:'getNextNum',token:sessao.token}).then(function(regData){
@@ -598,8 +495,8 @@ function emitirGuia(){
       cep:document.getElementById('cep').value||'—',
       endereco:enderecoCompleto()||'—',cidade:g('cidade'),estado:g('estado'),
       causa:g('causa')||'—',decObito:g('dec-obito')||'—',
-      dtObito:fmtDT((gRaw('dt-obito-data')&&gRaw('dt-obito-hora'))?(gRaw('dt-obito-data')+'T'+gRaw('dt-obito-hora')):(gRaw('dt-obito-data')?gRaw('dt-obito-data')+'T00:00':'')),ocorrencia:g('ocorrencia')||'—',
-      dtSep:fmtDT((gRaw('dt-sep-data')&&gRaw('dt-sep-hora'))?(gRaw('dt-sep-data')+'T'+gRaw('dt-sep-hora')):(gRaw('dt-sep-data')?gRaw('dt-sep-data')+'T00:00':'')),cemiterio:cemSel,
+      dtObito:fmtDT(gRaw('dt-obito')),ocorrencia:g('ocorrencia')||'—',
+      dtSep:fmtDT(gRaw('dt-sep')),cemiterio:cemSel,
       endCemiterio:CEMITERIOS[cemSel]||'—',
       emissor:sessao.nome,
       emitidoEm:new Date().toLocaleString('pt-BR')
@@ -611,7 +508,7 @@ function emitirGuia(){
     var blobG=new Blob([buildPrintHTML(data)],{type:'text/html'});
     var urlG=URL.createObjectURL(blobG);
     var pw=window.open(urlG,'_blank');
-    if(pw){pw.onload=function(){pw.print();URL.revokeObjectURL(urlG);};}
+    if(pw){setTimeout(function(){pw.print();URL.revokeObjectURL(urlG);},800);}
     else{alert('Permita popups para este arquivo e tente novamente.');}
     carregarArquivo();
   }).catch(function(e){
@@ -621,7 +518,7 @@ function emitirGuia(){
 }
 
 function limparForm(){
-  ['nome','cpf','nascimento','nome-pai','nome-mae','cep','endereco','numero','bairro','dt-obito-data','dt-obito-hora','dec-obito','causa','ocorrencia','dt-sep-data','dt-sep-hora'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['nome','cpf','nascimento','nome-pai','nome-mae','cep','endereco','numero','bairro','dt-obito','dec-obito','causa','ocorrencia','dt-sep'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('cidade').value='SERRA REDONDA';
   document.getElementById('estado').value='PB';
   document.getElementById('cemiterio').value='';
@@ -636,15 +533,9 @@ function carregarArquivo(){
   if(!sessao) return;
   document.getElementById('tabela-corpo').innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--ink-3)">Carregando dados...</td></tr>';
   api({action:'getHistory',token:sessao.token}).then(function(r){
-    allGuias=(r.guias||[]).map(function(h){h.registro=h.registro!=null?String(h.registro):'';return h;});
+    allGuias=r.guias||[];
     var anos=[];
-    allGuias.forEach(function(h){
-      var a='';
-      if(h.registro&&h.registro.indexOf('.')>3){a=h.registro.split('.')[0];}
-      else if(h.emitidoEm){a=h.emitidoEm.split('/')[2]?h.emitidoEm.split('/')[2].split(' ')[0]:'';}
-      else if(h.data&&h.data.emitidoEm){a=h.data.emitidoEm.split('/')[2]?h.data.emitidoEm.split('/')[2].split(' ')[0]:'';}
-      if(a&&a.length===4&&anos.indexOf(a)===-1)anos.push(a);
-    });
+    allGuias.forEach(function(h){if(h.registro){var a=h.registro.split('.')[0];if(anos.indexOf(a)===-1)anos.push(a);}});
     anos.sort().reverse();
     var sel=document.getElementById('filtro-ano');
     sel.innerHTML='<option value="">Todos os anos</option>'+anos.map(function(a){return'<option value="'+a+'">'+a+'</option>';}).join('');
@@ -654,20 +545,7 @@ function carregarArquivo(){
     document.getElementById('stat-ultimo').textContent=ult?ult.registro:'—';
     // Atualizar badge com próximo número
     var thisYear=allGuias.filter(function(h){return h.registro&&h.registro.startsWith(String(ANO));});
-    var proximoNum=1;
-    if(thisYear.length>0){
-      // Pegar o maior número já emitido no ano e somar 1
-      var nums=thisYear.map(function(h){
-        var parts=h.registro.split('.');
-        return parts[1]?parseInt(parts[1])||0:0;
-      });
-      proximoNum=Math.max.apply(null,nums)+1;
-    } else {
-      // Primeiro do ano — usar início definido
-      var INICIO_ANO={2026:25};
-      proximoNum=INICIO_ANO[ANO]||1;
-    }
-    document.getElementById('num-badge').textContent=ANO+'.'+String(proximoNum).padStart(4,'0');
+    document.getElementById('num-badge').textContent=ANO+'.'+String(thisYear.length+1).padStart(4,'0');
     renderTabela();
     setSyncStatus('ok','Conectado');
   }).catch(function(e){
@@ -691,8 +569,8 @@ function renderTabela(){
   var tbody=document.getElementById('tabela-corpo'),empty=document.getElementById('empty-msg');
   if(!lista.length){tbody.innerHTML='';empty.style.display='';empty.textContent='Nenhuma guia encontrada.';return;}
   empty.style.display='none';
-  window._listaTabela=lista;
-  tbody.innerHTML=lista.map(function(h,idx){
+  tbody.innerHTML=lista.map(function(h){
+    var hs=JSON.stringify(JSON.stringify(h));
     var emissorNome=h.emissor||'—';
     var iniciais=emissorNome.split(' ').map(function(n){return n[0]||'';}).slice(0,2).join('').toUpperCase();
     return'<tr>'+
@@ -703,40 +581,32 @@ function renderTabela(){
       '<td><span class="emissor-badge">'+iniciais+'</span> <span style="font-size:12px;">'+emissorNome+'</span></td>'+
       '<td>'+(h.emitidoEm||'—')+'</td>'+
       '<td><div class="td-actions">'+
-        '<button class="btn btn-ghost btn-sm" onclick="verDetalhe('+idx+')">Ver</button>'+
-        '<button class="btn btn-primary btn-sm" onclick="reimprimirH('+idx+')">Imprimir</button>'+
+        '<button class="btn btn-ghost btn-sm" onclick="verDetalhe('+hs+')">Ver</button>'+
+        '<button class="btn btn-primary btn-sm" onclick="reimprimirH('+hs+')">Imprimir</button>'+
       '</div></td>'+
     '</tr>';
   }).join('');
 }
 
-function verDetalhe(idx){
-  if(!window._listaTabela||!window._listaTabela[idx]){alert('Erro: dado não encontrado. Tente atualizar a página.');return;}
-  var h=window._listaTabela[idx],d=h.data||h;
+function verDetalhe(jsonStr){
+  var h=JSON.parse(jsonStr),d=h.data||h;
   document.getElementById('modal-titulo').textContent='Guia '+h.registro;
   var campos=[['Identificacao','secao'],['Nome',d.nome],['CPF',d.cpf],['Nascimento',d.nascimento],['Idade',d.idade],['Nome do pai',d.nomePai],['Nome da mae',d.nomeMae],['CEP',d.cep],['Endereco',d.endereco],['Cidade',d.cidade],['Estado',d.estado],['Obito','secao'],['Causa da morte',d.causa],['Declaracao de obito',d.decObito],['Data/hora do obito',d.dtObito],['Local do obito',d.ocorrencia],['Sepultamento','secao'],['Data/hora',d.dtSep],['Cemiterio',d.cemiterio],['Endereco cemiterio',d.endCemiterio],['Emissao','secao'],['Registro',h.registro],['Chave',d.chave],['Emitida por',h.emissor||d.emissor||'—'],['Emitida em',h.emitidoEm]];
   document.getElementById('modal-body').innerHTML=campos.map(function(c){
     return c[1]==='secao'?'<div class="modal-secao">'+c[0]+'</div>':'<div class="modal-row"><span class="modal-rot">'+c[0]+'</span><span class="modal-val">'+(c[1]||'—')+'</span></div>';
   }).join('');
-  document.getElementById('btn-modal-imprimir').onclick=function(){reimprimirH(idx);};
+  document.getElementById('btn-modal-imprimir').onclick=function(){reimprimirH(jsonStr);};
   document.getElementById('modal-bg').classList.add('open');
 }
 
 function fecharModal(e){if(e.target===document.getElementById('modal-bg'))document.getElementById('modal-bg').classList.remove('open');}
 
-function reimprimirH(idx){
-  if(!window._listaTabela||!window._listaTabela[idx]){alert('Erro: dado não encontrado. Tente atualizar a página.');return;}
-  var h=window._listaTabela[idx];
-  var base=h.data||h;
-  var data=Object.assign({},base,{
-    registro:h.registro||base.registro||'—',
-    emissor:h.emissor||base.emissor||'—',
-    cargo:h.cargo||base.cargo||''
-  });
-  var blobR=new Blob([buildPrintHTML(data)],{type:'text/html'});
+function reimprimirH(jsonStr){
+  var h=JSON.parse(jsonStr);
+  var blobR=new Blob([buildPrintHTML(h.data||h)],{type:'text/html'});
   var urlR=URL.createObjectURL(blobR);
   var pw=window.open(urlR,'_blank');
-  if(pw){pw.onload=function(){pw.print();URL.revokeObjectURL(urlR);};}
+  if(pw){setTimeout(function(){pw.print();URL.revokeObjectURL(urlR);},800);}
   else{alert('Permita popups para este arquivo e tente novamente.');}
 }
 
@@ -769,29 +639,28 @@ function exportarPDFLista(){
 function buildPrintHTML(data){
   var emitData=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   var emissorNome=data.emissor||sessao&&sessao.nome||'—';
-  var emissorCargo=data.cargo||(sessao&&sessao.cargo)||'Servidor Municipal';
   
   return'<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+
-    'body{font-family:Arial,sans-serif;font-size:12pt;margin:0;}'+
+    'body{font-family:Arial,sans-serif;font-size:13pt;margin:0;}'+
     '.page{width:210mm;margin:10mm auto;padding:10mm 15mm;}'+
     '.topo{display:flex;align-items:center;gap:16px;border-bottom:2.5px solid #1a2332;padding-bottom:10px;margin-bottom:12px;}'+
     '.topo img{width:72px;height:72px;object-fit:contain;flex-shrink:0;}'+
     '.topo-texto{flex:1;text-align:center;}'+
     '.topo h2{font-size:13pt;margin:0;color:#1a2332;font-weight:bold;}'+
     '.topo p{font-size:10pt;margin:2px 0 0;color:#555;}'+
-    '.titulo{text-align:center;font-size:15pt;font-weight:bold;border:2px solid #1a2332;padding:7px;margin:12px 0;letter-spacing:3px;color:#1a2332;}'+
+    '.titulo{text-align:center;font-size:16pt;font-weight:bold;border:2px solid #1a2332;padding:8px;margin:14px 0;letter-spacing:3px;color:#1a2332;}'+
     '.registro{text-align:center;font-size:10.5pt;margin-bottom:16px;color:#555;}'+
     '.secao{font-weight:bold;font-size:10pt;padding:4px 8px;margin:14px 0 6px;text-transform:uppercase;background:#1a2332;color:#fff;letter-spacing:1px;}'+
-    '.linha{display:flex;margin-bottom:6px;font-size:11pt;}'+
-    '.rot{font-weight:bold;white-space:nowrap;margin-right:8px;min-width:180px;color:#333;}'+
-    '.val{border-bottom:1px solid #ccc;flex:1;text-transform:uppercase;padding-bottom:1px;}'+
+    '.linha{display:flex;margin-bottom:8px;font-size:12pt;}'+
+    '.rot{font-weight:bold;white-space:nowrap;margin-right:8px;min-width:185px;color:#111;}'+
+    '.val{border-bottom:1.5px solid #999;flex:1;text-transform:uppercase;padding-bottom:2px;color:#1a1a1a;font-weight:500;}'+
     '.assinatura{margin-top:56px;text-align:center;}'+
-    '.linha-ass{border-top:1.5px solid #1a2332;width:300px;margin:0 auto 6px;}'+
-    '.ass-nome{font-size:11pt;font-weight:bold;color:#1a2332;}'+
+    '.linha-ass{border-top:2px solid #1a2332;width:400px;margin:0 auto 8px;}'+
+    '.ass-nome{font-size:12pt;font-weight:bold;color:#1a2332;}'+
     '.ass-cargo{font-size:10pt;color:#555;}'+
     '.ass-data{font-size:10pt;color:#555;margin-bottom:44px;}'+
     '@media print{.page{margin:0;padding:10mm 15mm;}}'+
-    '</style><script>window.onload=function(){window.print();}</' + 'script></head><body><div class="page">'+
+    '</style></head><body><div class="page">'+
     '<div class="topo"><img src="'+BRASAO_SRC+'" alt="Brasao" />'+
     '<div class="topo-texto"><h2>Prefeitura Municipal de Serra Redonda</h2><p>Estado da Paraiba</p><p>Secretaria de Financas - Setor de Arrecadacao e Tributos</p></div></div>'+
     '<div class="titulo">Guia de Sepultamento</div>'+
@@ -820,102 +689,9 @@ function buildPrintHTML(data){
     '<p class="ass-data">Serra Redonda/PB, '+emitData+'</p>'+
     '<div class="linha-ass"></div>'+
     '<p class="ass-nome">'+emissorNome+'</p>'+
+    '<p class="ass-cargo">'+emissorCargo+'</p>'+
     '</div></div></body></html>';
 }
-// ============================================================
-// GERENCIAMENTO DE USUÁRIOS
-// ============================================================
-function carregarUsuarios(){
-  if(!sessao||!sessao.admin) return;
-  document.getElementById('u-tabela').innerHTML='<tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--ink-3)">Carregando...</td></tr>';
-  api({action:'getUsuarios',token:sessao.token}).then(function(r){
-    if(r.error){document.getElementById('u-tabela').innerHTML='<tr><td colspan="4" style="color:red;padding:1rem">'+r.error+'</td></tr>';return;}
-    var lista=r.usuarios||[];
-    var empty=document.getElementById('u-empty');
-    if(!lista.length){document.getElementById('u-tabela').innerHTML='';empty.style.display='';return;}
-    empty.style.display='none';
-    window._listaUsuarios=lista;
-    document.getElementById('u-tabela').innerHTML=lista.map(function(u,i){
-      var isAdmin=u.admin;
-      var podeDeletar=!isAdmin;
-      return'<tr>'+
-        '<td><strong>'+u.usuario+'</strong></td>'+
-        '<td>'+u.nome+'</td>'+
-        '<td>'+(isAdmin?'<span class="badge-admin">Administrador</span>':'<span class="badge-user">Usuário</span>')+'</td>'+
-        '<td><div class="td-actions">'+
-          '<button class="btn btn-ghost btn-sm" onclick="editarUsuario('+i+')">Editar</button>'+
-          (podeDeletar?'<button class="btn btn-danger btn-sm" onclick="confirmarRemover('+i+')">Remover</button>':'')+'</div></td>'+
-      '</tr>';
-    }).join('');
-  }).catch(function(e){
-    document.getElementById('u-tabela').innerHTML='<tr><td colspan="4" style="color:red;padding:1rem">Erro: '+e.message+'</td></tr>';
-  });
-}
-
-function editarUsuario(idx){
-  var u=window._listaUsuarios[idx];
-  if(!u) return;
-  document.getElementById('u-usuario').value=u.usuario;
-  document.getElementById('u-nome').value=u.nome;
-  document.getElementById('u-senha').value='';
-  document.getElementById('u-senha').placeholder='Nova senha (deixe em branco para manter)';
-  document.getElementById('u-status').innerHTML='';
-  document.getElementById('u-usuario').focus();
-}
-
-function limparFormUsuario(){
-  document.getElementById('u-usuario').value='';
-  document.getElementById('u-senha').value='';
-  document.getElementById('u-senha').placeholder='Mínimo 6 caracteres';
-  document.getElementById('u-nome').value='';
-  document.getElementById('u-status').innerHTML='';
-}
-
-function salvarUsuario(){
-  var usuario=document.getElementById('u-usuario').value.trim().toLowerCase();
-  var senha=document.getElementById('u-senha').value.trim();
-  var nome=document.getElementById('u-nome').value.trim();
-  var stEl=document.getElementById('u-status');
-  if(!usuario||!nome){stEl.innerHTML='<span class="status-err">Preencha login e nome.</span>';return;}
-  if(!senha){stEl.innerHTML='<span class="status-err">Informe uma senha.</span>';return;}
-  if(senha.length<6){stEl.innerHTML='<span class="status-err">A senha deve ter ao menos 6 caracteres.</span>';return;}
-  stEl.innerHTML='<span style="color:var(--ink-3)">Salvando...</span>';
-  api({action:'saveUsuario',token:sessao.token,usuario:usuario,senha:senha,nome:nome}).then(function(r){
-    if(r.error){stEl.innerHTML='<span class="status-err">'+r.error+'</span>';return;}
-    stEl.innerHTML='<span class="status-ok">Usuário '+(r.acao==='criado'?'cadastrado':'atualizado')+' com sucesso.</span>';
-    limparFormUsuario();
-    carregarUsuarios();
-  }).catch(function(e){stEl.innerHTML='<span class="status-err">Erro: '+e.message+'</span>';});
-}
-
-function confirmarRemover(idx){
-  var u=window._listaUsuarios[idx];
-  if(!u) return;
-  var usuario=u.usuario;
-  if(!confirm('Tem certeza que deseja remover o usuário "'+usuario+'"? Esta ação não pode ser desfeita.')) return;
-  var stEl=document.getElementById('u-status');
-  stEl.innerHTML='<span style="color:var(--ink-3)">Removendo...</span>';
-  api({action:'removeUsuario',token:sessao.token,usuario:usuario}).then(function(r){
-    if(r.error){stEl.innerHTML='<span class="status-err">'+r.error+'</span>';return;}
-    stEl.innerHTML='<span class="status-ok">Usuário removido com sucesso.</span>';
-    carregarUsuarios();
-  }).catch(function(e){stEl.innerHTML='<span class="status-err">Erro: '+e.message+'</span>';});
-}
-
-function toggleSenha(){
-  var inp=document.getElementById('u-senha');
-  var btn=document.getElementById('btn-toggle-senha');
-  if(inp.type==='password'){inp.type='text';btn.innerHTML='&#128064;';}
-  else{inp.type='password';btn.innerHTML='&#128065;';}
-}
-
-// Registrar Service Worker para PWA
-if('serviceWorker' in navigator){
-  window.addEventListener('load', function(){
-    navigator.serviceWorker.register('sw.js').catch(function(){});
-  });
-}
-
 </script>
 </body>
 </html>
