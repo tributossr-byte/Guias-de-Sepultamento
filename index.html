@@ -409,7 +409,15 @@ function mostrarApp() {
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
   document.getElementById('panel-emitir').classList.add('active');
   document.querySelector('.tab[onclick*="emitir"]').classList.add('active');
+  // Buscar próximo número direto do servidor logo ao abrir
+  atualizarBadge();
   carregarArquivo();
+}
+
+function atualizarBadge() {
+  api({action:'getNextNumBadge',token:sessao.token}).then(function(r){
+    if(r&&r.proximo) document.getElementById('num-badge').textContent=r.proximo;
+  }).catch(function(){});
 }
 
 function fazerLogout() {
@@ -613,6 +621,7 @@ function emitirGuia(){
     var pw=window.open(urlG,'_blank');
     if(pw){pw.onload=function(){pw.print();URL.revokeObjectURL(urlG);};}
     else{alert('Permita popups para este arquivo e tente novamente.');}
+    atualizarBadge();
     carregarArquivo();
   }).catch(function(e){
     document.getElementById('status').innerHTML='<span class="status-err">Erro: '+e.message+'</span>';
@@ -668,7 +677,6 @@ function carregarArquivo(){
       proximoNum=INICIO_ANO[ANO]||1;
     }
     document.getElementById('num-badge').textContent=ANO+'.'+String(proximoNum).padStart(4,'0');
-    api({action:'getNextNumBadge',token:sessao.token}).then(function(r){if(r&&r.proximo)document.getElementById('num-badge').textContent=r.proximo;}).catch(function(){});
 
     renderTabela();
     setSyncStatus('ok','Conectado');
