@@ -661,22 +661,7 @@ function carregarArquivo(){
     document.getElementById('stat-ano').textContent=allGuias.filter(function(h){return h.registro&&h.registro.startsWith(String(ANO));}).length;
     var ult=allGuias.length?allGuias[0]:null;
     document.getElementById('stat-ultimo').textContent=ult?ult.registro:'—';
-    // Atualizar badge com próximo número
-    var thisYear=allGuias.filter(function(h){return h.registro&&h.registro.startsWith(String(ANO));});
-    var proximoNum=1;
-    if(thisYear.length>0){
-      // Pegar o maior número já emitido no ano e somar 1
-      var nums=thisYear.map(function(h){
-        var parts=h.registro.split('.');
-        return parts[1]?parseInt(parts[1])||0:0;
-      });
-      proximoNum=Math.max.apply(null,nums)+1;
-    } else {
-      // Primeiro do ano — usar início definido
-      var INICIO_ANO={2026:25};
-      proximoNum=INICIO_ANO[ANO]||1;
-    }
-    document.getElementById('num-badge').textContent=ANO+'.'+String(proximoNum).padStart(4,'0');
+    // Badge gerenciado por atualizarBadge()
 
     renderTabela();
     setSyncStatus('ok','Conectado');
@@ -799,7 +784,7 @@ function buildPrintHTML(data){
     '.linha-ass{border-top:2px solid #1a2332;width:500px;margin:0 auto 8px;}'+
     '.ass-nome{font-size:12pt;font-weight:bold;color:#1a2332;}'+
     '.ass-cargo{font-size:10pt;color:#555;}'+
-    '.ass-data{font-size:10pt;color:#555;margin-bottom:44px;}'+
+    '.ass-data{font-size:10pt;color:#555;margin-bottom:80px;}'+
     '@media print{.page{margin:0;padding:10mm 15mm;}.secao{background:#1a2332!important;color:#fff!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;}}'+
     '</style><script>window.onload=function(){window.print();}</' + 'script></head><body><div class="page">'+
     '<div class="topo"><img src="'+BRASAO_SRC+'" alt="Brasao" />'+
