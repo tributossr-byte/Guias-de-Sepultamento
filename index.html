@@ -772,21 +772,21 @@ function buildPrintHTML(data){
   var emissorCargo=data.cargo||(sessao&&sessao.cargo)||'Servidor Municipal';
   
   return'<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+
-    'body{font-family:Arial,sans-serif;font-size:12pt;margin:0;}'+
+    'body{font-family:Arial,sans-serif;font-size:13pt;margin:0;}'+
     '.page{width:210mm;margin:10mm auto;padding:10mm 15mm;}'+
     '.topo{display:flex;align-items:center;gap:16px;border-bottom:2.5px solid #1a2332;padding-bottom:10px;margin-bottom:12px;}'+
     '.topo img{width:72px;height:72px;object-fit:contain;flex-shrink:0;}'+
     '.topo-texto{flex:1;text-align:center;}'+
     '.topo h2{font-size:13pt;margin:0;color:#1a2332;font-weight:bold;}'+
     '.topo p{font-size:10pt;margin:2px 0 0;color:#555;}'+
-    '.titulo{text-align:center;font-size:15pt;font-weight:bold;border:2px solid #1a2332;padding:7px;margin:12px 0;letter-spacing:3px;color:#1a2332;}'+
+    '.titulo{text-align:center;font-size:16pt;font-weight:bold;border:2px solid #1a2332;padding:8px;margin:14px 0;letter-spacing:3px;color:#1a2332;}'+
     '.registro{text-align:center;font-size:10.5pt;margin-bottom:16px;color:#555;}'+
     '.secao{font-weight:bold;font-size:12pt;padding:4px 8px;margin:14px 0 6px;text-transform:uppercase;background:#1a2332;color:#fff;letter-spacing:1px;}'+
-    '.linha{display:flex;margin-bottom:6px;font-size:11pt;}'+
-    '.rot{font-weight:bold;white-space:nowrap;margin-right:8px;min-width:180px;color:#333;}'+
-    '.val{border-bottom:1px solid #1a1a1a;flex:1;text-transform:uppercase;padding-bottom:1px;}'+
+    '.linha{display:flex;margin-bottom:8px;font-size:12pt;}'+
+    '.rot{font-weight:bold;white-space:nowrap;margin-right:8px;min-width:180px;color:#111;}'+
+    '.val{border-bottom:1.5px solid #999;flex:1;text-transform:uppercase;padding-bottom:2px;color:#1a1a1a;font-weight:500;}'+
     '.assinatura{margin-top:56px;text-align:center;}'+
-    '.linha-ass{border-top:2px solid #1a2332;width:420px;margin:0 auto 6px;}'+
+    '.linha-ass{border-top:2px solid #1a2332;width:400px;margin:0 auto 8px;}'+
     '.ass-nome{font-size:12pt;font-weight:bold;color:#1a2332;}'+
     '.ass-cargo{font-size:10pt;color:#555;}'+
     '.ass-data{font-size:10pt;color:#555;margin-bottom:44px;}'+
