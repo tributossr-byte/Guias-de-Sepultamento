@@ -646,15 +646,24 @@ function carregarArquivo(){
   document.getElementById('tabela-corpo').innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--ink-3)">Carregando dados...</td></tr>';
   api({action:'getHistory',token:sessao.token}).then(function(r){
     allGuias=(r.guias||[]).map(function(h){h.registro=h.registro!=null?String(h.registro):'';return h;});
-    var anos=[];
+    // Extrair anos a partir do emitidoEm (DD/MM/AAAA ...) — fonte mais confiável
+    var anosSet={};
     allGuias.forEach(function(h){
       var a='';
-      if(h.registro&&h.registro.indexOf('.')>3){a=h.registro.split('.')[0];}
-      else if(h.emitidoEm){a=h.emitidoEm.split('/')[2]?h.emitidoEm.split('/')[2].split(' ')[0]:'';}
-      else if(h.data&&h.data.emitidoEm){a=h.data.emitidoEm.split('/')[2]?h.data.emitidoEm.split('/')[2].split(' ')[0]:'';}
-      if(a&&a.length===4&&anos.indexOf(a)===-1)anos.push(a);
+      // Fonte principal: emitidoEm = "21/11/2025 15:32:00"
+      var emStr = h.emitidoEm || (h.data && h.data.emitidoEm) || '';
+      if(emStr){
+        var partes = emStr.split('/');
+        if(partes.length>=3) a = partes[2].substring(0,4);
+      }
+      // Fallback: registro "2026.0025" — pegar tudo antes do ponto
+      if(!a && h.registro){
+        var dot = h.registro.indexOf('.');
+        if(dot>0) a = h.registro.substring(0,dot);
+      }
+      if(a && a.length===4 && /^[0-9]{4}$/.test(a)) anosSet[a]=1;
     });
-    anos.sort().reverse();
+    var anos=Object.keys(anosSet).sort().reverse();
     var sel=document.getElementById('filtro-ano');
     sel.innerHTML='<option value="">Todos os anos</option>'+anos.map(function(a){return'<option value="'+a+'">'+a+'</option>';}).join('');
     document.getElementById('stat-total').textContent=allGuias.length;
