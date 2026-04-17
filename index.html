@@ -762,7 +762,20 @@ function exportarPDFLista(){
 }
 
 function buildPrintHTML(data){
-  var emitData=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  // Usar data original de emissão; se não disponível, usar data atual
+  var emitData;
+  var emitidoEmRaw = data.emitidoEm || '';
+  if(emitidoEmRaw){
+    // emitidoEm vem como "DD/MM/AAAA HH:MM:SS" ou "DD/MM/AAAA, HH:MM:SS"
+    var partes = emitidoEmRaw.split(/[,\s]/)[0].split('/');
+    if(partes.length===3){
+      var dOrig = new Date(parseInt(partes[2]), parseInt(partes[1])-1, parseInt(partes[0]));
+      if(!isNaN(dOrig.getTime())){
+        emitData = dOrig.toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+      }
+    }
+  }
+  if(!emitData) emitData = new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   var emissorNome=data.emissor||sessao&&sessao.nome||'—';
   var emissorCargo=data.cargo||(sessao&&sessao.cargo)||'Servidor Municipal';
   
