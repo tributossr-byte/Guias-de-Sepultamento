@@ -776,7 +776,31 @@ function exportarPDFLista(){
   if(q)lista=lista.filter(function(h){return(h.nome&&h.nome.toLowerCase().includes(q))||(h.registro&&h.registro.toLowerCase().includes(q));});
   var now=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
   var rows=lista.map(function(h){var d=h.data||h;return'<tr><td>'+h.registro+'</td><td>'+(h.nome||'—')+'</td><td>'+(d.dtObito||'—')+'</td><td>'+(d.cemiterio||'—')+'</td><td>'+(h.emissor||'—')+'</td><td>'+(h.emitidoEm||'—')+'</td></tr>';}).join('');
-  var phtml='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif;font-size:10pt;}.cab{display:flex;align-items:center;gap:12px;border-bottom:2px solid #1a2332;padding-bottom:8px;margin-bottom:10px;}.cab img{width:54px;height:54px;object-fit:contain;}.cab-t h2{font-size:12pt;margin:0;color:#1a2332;}.cab-t p{font-size:9pt;color:#666;margin:2px 0 0;}.sub{font-size:9pt;color:#666;margin-bottom:14px;}table{width:100%;border-collapse:collapse;font-size:8.5pt;}th{background:#1a2332;color:#fff;text-align:left;padding:5px 7px;}td{padding:4px 7px;border-bottom:1px solid #e5e9ed;}tr:nth-child(even) td{background:#f7f9fb;}@media print{body{margin:0;}}</style></head><body><div class="cab"><img src="'+BRASAO_SRC+'" /><div class="cab-t"><h2>Prefeitura Municipal de Serra Redonda - PB</h2><p>Secretaria de Financas - Setor de Arrecadacao e Tributos</p></div></div><p class="sub">Relatorio de Guias de Sepultamento - '+now+' - '+lista.length+' registro(s)</p><table><thead><tr><th>Registro</th><th>Nome do Falecido</th><th>Data Obito</th><th>Cemiterio</th><th>Emitido por</th><th>Emitida em</th></tr></thead><tbody>'+rows+'</tbody></table></body></html>';
+  var phtml='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+
+    'body{font-family:Arial,sans-serif;font-size:10pt;}'+
+    '.cab{display:flex;align-items:center;gap:12px;border-bottom:2px solid #1a2332;padding-bottom:8px;margin-bottom:10px;}'+
+    '.cab img{width:54px;height:54px;object-fit:contain;}'+
+    '.cab-t h2{font-size:12pt;margin:0;color:#1a2332;}'+
+    '.cab-t p{font-size:9pt;color:#666;margin:2px 0 0;}'+
+    '.sub{font-size:9pt;color:#666;margin-bottom:14px;}'+
+    'table{width:100%;border-collapse:collapse;font-size:8.5pt;}'+
+    'th{background:#1a2332;color:#fff;text-align:left;padding:6px 8px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'+
+    'td{padding:5px 8px;border-bottom:1px solid #e5e9ed;}'+
+    'tr:nth-child(even) td{background:#f7f9fb;}'+
+    '@media print{body{margin:0;}th{background:#1a2332!important;color:#fff!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;}}'+
+    '</style></head><body>'+
+    '<div class="cab"><img src="'+BRASAO_SRC+'" />'+
+    '<div class="cab-t"><h2>Prefeitura Municipal de Serra Redonda &mdash; PB</h2>'+
+    '<p>Secretaria de Finan&ccedil;as &mdash; Setor de Arrecada&ccedil;&atilde;o e Tributos</p></div></div>'+
+    '<p class="sub">Relat&oacute;rio de Guias de Sepultamento &mdash; '+now+' &mdash; '+lista.length+' registro(s)</p>'+
+    '<table><thead><tr>'+
+    '<th>Registro</th>'+
+    '<th>Nome do Falecido</th>'+
+    '<th>Data do &Oacute;bito</th>'+
+    '<th>Cemit&eacute;rio</th>'+
+    '<th>Emitido por</th>'+
+    '<th>Emitida em</th>'+
+    '</tr></thead><tbody>'+rows+'</tbody></table></body></html>';
   var blobP=new Blob([phtml],{type:'text/html'});
   var urlP=URL.createObjectURL(blobP);
   var pw=window.open(urlP,'_blank');
@@ -824,29 +848,29 @@ function buildPrintHTML(data){
     '@media print{.page{margin:0;padding:10mm 15mm;}.secao{background:#1a2332!important;color:#fff!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;}}'+
     '</style><script>window.onload=function(){window.print();}</' + 'script></head><body><div class="page">'+
     '<div class="topo"><img src="'+BRASAO_SRC+'" alt="Brasao" />'+
-    '<div class="topo-texto"><h2>Prefeitura Municipal de Serra Redonda</h2><p>Estado da Paraiba</p><p>Secretaria de Financas - Setor de Arrecadacao e Tributos</p></div></div>'+
+    '<div class="topo-texto"><h2>Prefeitura Municipal de Serra Redonda</h2><p>Estado da Para&iacute;ba</p><p>Secretaria de Finan&ccedil;as &mdash; Setor de Arrecada&ccedil;&atilde;o e Tributos</p></div></div>'+
     '<div class="titulo">Guia de Sepultamento</div>'+
-    '<div class="registro">Registro No: '+(data.registro||'—')+' &nbsp;&#183;&nbsp; Chave: '+(data.chave||'—')+'</div>'+
-    '<div class="secao">Identificacao do Falecido</div>'+
+    '<div class="registro">Registro N&ordm;: '+(data.registro||'—')+' &nbsp;&#183;&nbsp; Chave: '+(data.chave||'—')+'</div>'+
+    '<div class="secao">Identifica&ccedil;&atilde;o do Falecido</div>'+
     '<div class="linha"><span class="rot">Nome do Falecido:</span><span class="val">'+(data.nome||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">CPF:</span><span class="val">'+(data.cpf||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">Data de Nascimento:</span><span class="val">'+(data.nascimento||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">Idade:</span><span class="val">'+(data.idade||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">Nome do Pai:</span><span class="val">'+(data.nomePai||'—')+'</span></div>'+
-    '<div class="linha"><span class="rot">Nome da Mae:</span><span class="val">'+(data.nomeMae||'—')+'</span></div>'+
+    '<div class="linha"><span class="rot">Nome da M&atilde;e:</span><span class="val">'+(data.nomeMae||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">CEP:</span><span class="val">'+(data.cep||'—')+'</span></div>'+
-    '<div class="linha"><span class="rot">Endereco Residencial:</span><span class="val">'+(data.endereco||'—')+'</span></div>'+
+    '<div class="linha"><span class="rot">Endere&ccedil;o Residencial:</span><span class="val">'+(data.endereco||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">Cidade:</span><span class="val">'+(data.cidade||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">Estado:</span><span class="val">'+(data.estado||'—')+'</span></div>'+
-    '<div class="secao">Obito</div>'+
+    '<div class="secao">&Oacute;bito</div>'+
     '<div class="linha"><span class="rot">Causa da Morte:</span><span class="val">'+(data.causa||'—')+'</span></div>'+
-    '<div class="linha"><span class="rot">Declaracao de Obito:</span><span class="val">'+(data.decObito||'—')+'</span></div>'+
-    '<div class="linha"><span class="rot">Data/Hora do Obito:</span><span class="val">'+(data.dtObito||'—')+'</span></div>'+
-    '<div class="linha"><span class="rot">Ocorrencia do Obito:</span><span class="val">'+(data.ocorrencia||'—')+'</span></div>'+
+    '<div class="linha"><span class="rot">Declara&ccedil;&atilde;o de &Oacute;bito:</span><span class="val">'+(data.decObito||'—')+'</span></div>'+
+    '<div class="linha"><span class="rot">Data/Hora do &Oacute;bito:</span><span class="val">'+(data.dtObito||'—')+'</span></div>'+
+    '<div class="linha"><span class="rot">Ocorr&ecirc;ncia do &Oacute;bito:</span><span class="val">'+(data.ocorrencia||'—')+'</span></div>'+
     '<div class="secao">Sepultamento</div>'+
     '<div class="linha"><span class="rot">Data/Hora:</span><span class="val">'+(data.dtSep||'—')+'</span></div>'+
     '<div class="linha"><span class="rot">Sepultura:</span><span class="val">'+(data.cemiterio||'—')+'</span></div>'+
-    '<div class="linha"><span class="rot">Endereco:</span><span class="val">'+(data.endCemiterio||'—')+'</span></div>'+
+    '<div class="linha"><span class="rot">Endere&ccedil;o:</span><span class="val">'+(data.endCemiterio||'—')+'</span></div>'+
     '<div class="assinatura">'+
     '<p class="ass-data">Serra Redonda/PB, '+emitData+'</p>'+
     '<div class="linha-ass"></div>'+
