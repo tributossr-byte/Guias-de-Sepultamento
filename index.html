@@ -488,6 +488,14 @@ function api(params) {
 })();
 
 function autoFocarHora(idData,idHora){var d=document.getElementById(idData);var h=document.getElementById(idHora);if(d&&d.value&&h){h.focus();}}
+function fmtEmitido(s){
+  if(!s||s==='—') return '—';
+  try{
+    var d=new Date(s);
+    if(!isNaN(d.getTime())) return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){}
+  return s;
+}
 function fmtDT(s){if(!s)return'—';var d=new Date(s);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+':00';}
 function fmtData(s){if(!s)return'—';var p=s.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
 function gerarChave(){var c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';var s='';for(var i=0;i<8;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
@@ -646,17 +654,23 @@ function carregarArquivo(){
   document.getElementById('tabela-corpo').innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--ink-3)">Carregando dados...</td></tr>';
   api({action:'getHistory',token:sessao.token}).then(function(r){
     allGuias=(r.guias||[]).map(function(h){h.registro=h.registro!=null?String(h.registro):'';return h;});
-    // Extrair anos a partir do emitidoEm (DD/MM/AAAA ...) — fonte mais confiável
+    // Extrair anos — suporta ISO "2026-04-17T..." e formato BR "17/04/2026 ..."
     var anosSet={};
     allGuias.forEach(function(h){
       var a='';
-      // Fonte principal: emitidoEm = "21/11/2025 15:32:00"
       var emStr = h.emitidoEm || (h.data && h.data.emitidoEm) || '';
       if(emStr){
-        var partes = emStr.split('/');
-        if(partes.length>=3) a = partes[2].substring(0,4);
+        // Formato ISO: "2026-04-17T15:27:51.000Z" → primeiros 4 chars = ano
+        if(/^[0-9]{4}-/.test(emStr)){
+          a = emStr.substring(0,4);
+        }
+        // Formato BR: "17/04/2026 15:32:00" → terceira parte antes do espaço
+        else if(emStr.indexOf('/')!==-1){
+          var partes = emStr.split('/');
+          if(partes.length>=3) a = partes[2].substring(0,4);
+        }
       }
-      // Fallback: registro "2026.0025" — pegar tudo antes do ponto
+      // Fallback: registro "2026.0001"
       if(!a && h.registro){
         var dot = h.registro.indexOf('.');
         if(dot>0) a = h.registro.substring(0,dot);
@@ -705,7 +719,7 @@ function renderTabela(){
       '<td>'+(h.dtObito||(h.data&&h.data.dtObito)||'—')+'</td>'+
       '<td>'+(h.cemiterio||(h.data&&h.data.cemiterio)||'—')+'</td>'+
       '<td><span class="emissor-badge">'+iniciais+'</span> <span style="font-size:12px;">'+emissorNome+'</span></td>'+
-      '<td>'+(h.emitidoEm||'—')+'</td>'+
+      '<td>'+fmtEmitido(h.emitidoEm)+'</td>'+
       '<td><div class="td-actions">'+
         '<button class="btn btn-ghost btn-sm" onclick="verDetalhe('+idx+')">Ver</button>'+
         '<button class="btn btn-primary btn-sm" onclick="reimprimirH('+idx+')">Imprimir</button>'+
